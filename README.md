@@ -25,7 +25,8 @@ The following gateways are provided by this package:
 * PayPal_Express (PayPal Express Checkout)
 * PayPal_ExpressInContext (PayPal Express In-Context Checkout)
 * PayPal_Pro (PayPal Website Payments Pro)
-* PayPal_Rest (Paypal Rest API)
+* PayPal_Rest (Paypal Rest API V1 - Deprecated)
+* PayPal_Rest_V2 (Paypal Rest API)
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.
