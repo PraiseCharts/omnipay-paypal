@@ -25,8 +25,10 @@ The following gateways are provided by this package:
 * PayPal_Express (PayPal Express Checkout)
 * PayPal_ExpressInContext (PayPal Express In-Context Checkout)
 * PayPal_Pro (PayPal Website Payments Pro)
-* PayPal_Rest (Paypal Rest API V1 - Deprecated)
-* PayPal_Rest_V2 (Paypal Rest API)
+* PayPal_Rest_V1 (PayPal REST API v1 - Deprecated)
+    * **Note: The PayPal_Rest gateway now points to PayPal_Rest_V1, which supports the v1 API routes. This version is deprecated and no longer recommended for new integrations.**
+* PayPal_Rest_V2 (PayPal REST API v2 & v3)
+    * **This gateway supports the latest v2 and v3 API routes for card creation and transaction processing. New integrations should use this version.**
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.
@@ -34,6 +36,8 @@ repository.
 ## Quirks
 
 The transaction reference obtained from the purchase() response can't be used to refund a purchase. The transaction reference from the completePurchase() response is the one that should be used.
+
+PayPal_Rest_V1 is deprecated and may not support the latest PayPal features.
 
 ## Out Of Scope
 
