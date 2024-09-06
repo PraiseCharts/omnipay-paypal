@@ -152,7 +152,7 @@ use Omnipay\PayPal\Message\Rest\V1\RestVerifyWebhookSignatureRequest;
  * @link https://developer.paypal.com/docs/api/#authentication--headers
  * @see Omnipay\PayPal\Message\Rest\V1\AbstractRestRequest
  */
-class RestGatewayV2 extends AbstractGateway
+class RestGatewayV1 extends AbstractGateway
 {
 
     // Constants used in plan creation
@@ -171,7 +171,7 @@ class RestGatewayV2 extends AbstractGateway
 
     public function getName()
     {
-        return 'PayPal REST V2';
+        return 'PayPal REST V1';
     }
 
     public function getDefaultParameters()
