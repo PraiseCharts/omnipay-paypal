@@ -146,7 +146,7 @@ use Omnipay\Common\AbstractGateway;
  * @link https://developer.paypal.com/docs/api/#authentication--headers
  * @see Omnipay\PayPal\Message\Rest\V1\AbstractRestRequest
  */
-class RestGatewayV2 extends AbstractGateway
+class RestV2Gateway extends AbstractGateway
 {
 
     // Constants used in plan creation

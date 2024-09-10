@@ -20,7 +20,7 @@ class RestGatewayV2Test extends GatewayTestCase
     {
         parent::setUp();
 
-        $this->gateway = new RestGatewayV2($this->getHttpClient(), $this->getHttpRequest());
+        $this->gateway = new RestV2Gateway($this->getHttpClient(), $this->getHttpRequest());
         $this->gateway->setToken('TEST-TOKEN-123');
         $this->gateway->setTokenExpires(time() + 600);
 

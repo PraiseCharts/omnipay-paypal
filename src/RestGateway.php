@@ -8,7 +8,7 @@ namespace Omnipay\PayPal;
 /**
  * Deprecated: Use PayPal_Rest_V1 instead
  */
-class RestGateway extends RestGatewayV1
+class RestGateway extends RestV1Gateway
 {
 
    function getShortName()
