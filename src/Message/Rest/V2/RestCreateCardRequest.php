@@ -76,7 +76,11 @@ class RestCreateCardRequest extends AbstractRestRequest
             $data['payment_source']['card'] = $this->getCardReference();
         } elseif ($this->getCard()) {
             $this->getCard()->validate();
-            $data['payment_source']['card'] = $this->getCardData();
+            $cardData = $this->getCardData();
+            if (isset($cardData['brand'])) {
+                $cardData['brand'] = strtoupper($cardData['brand']);
+            }
+            $data['payment_source']['card'] = $cardData;
         } else {
             // one of token or card is required
             $this->validate('payment_source');
