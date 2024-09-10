@@ -1,0 +1,21 @@
+HTTP/2 201 
+traceparent: 00-0000000000000000000f12420899fb1e-79bf17d3abc1f6c0-01
+http_x_pp_az_locator: ccg18.slc
+strict-transport-security: max-age=31536000; includeSubDomains
+server: nginx
+cache-control: max-age=0, no-cache, no-store, must-revalidate
+paypal-debug-id: f12420899fb1e
+content-type: application/json
+x-backend-info: v=1;name=2k1u3gOGb2cebCyZJujTUN--F_ccg18_wju_origin_api_m_2_sandbox_paypal_com;ip=34.106.111.220;port=443;ssl=1;max=200;ka_ns=0;tka_s=300;tki_s=10;tkp=3;host=api-m.sandbox.paypal.com;min_tls=;max_tls=;sni=edge.sandbox.paypal.com;cert_host=edge.sandbox.paypal.com;ciphers=;check_cert=1;no_reneg=1;to_ns=1000000000;fbto_ns=59000000000;bbto_ns=10000000000
+accept-ranges: bytes
+via: 1.1 varnish, 1.1 varnish
+edge-control: max-age=0
+date: Tue, 10 Sep 2024 16:12:12 GMT
+x-served-by: cache-sjc10031-SJC, cache-sjc10031-SJC, cache-bfi-krnt7300060-BFI
+x-cache: MISS, MISS, MISS
+x-cache-hits: 0, 0, 0
+x-timer: S1725984732.121754,VS0,VE309
+vary: Accept-Encoding
+content-length: 630
+
+{"id":"4w740078t47817438","customer":{"id":"fvKTKUnZyI"},"payment_source":{"card":{"name":"John Doe","last_digits":"1881","brand":"VISA","expiry":"2027-08","billing_address":{"address_line_1":"2211 N First Street","address_line_2":"17.3.160","admin_area_2":"San Jose","admin_area_1":"CA","postal_code":"95131","country_code":"US"}}},"links":[{"href":"https://api.sandbox.paypal.com/v3/vault/payment-tokens/4w740078t47817438","rel":"self","method":"GET","encType":"application/json"},{"href":"https://api.sandbox.paypal.com/v3/vault/payment-tokens/4w740078t47817438","rel":"delete","method":"DELETE","encType":"application/json"}]}

@@ -6,12 +6,6 @@
 namespace Omnipay\PayPal;
 
 use Omnipay\Common\AbstractGateway;
-use Omnipay\PayPal\Message\ProAuthorizeRequest;
-use Omnipay\PayPal\Message\CaptureRequest;
-use Omnipay\PayPal\Message\RefundRequest;
-use Omnipay\PayPal\Message\Rest\V1\RestCreateWebhookRequest;
-use Omnipay\PayPal\Message\Rest\V1\RestListWebhooksRequest;
-use Omnipay\PayPal\Message\Rest\V1\RestVerifyWebhookSignatureRequest;
 
 /**
  * PayPal Pro Class using REST API
@@ -82,7 +76,7 @@ use Omnipay\PayPal\Message\Rest\V1\RestVerifyWebhookSignatureRequest;
  * <code>
  *   // Create a gateway for the PayPal RestGateway
  *   // (routes to GatewayFactory::create)
- *   $gateway = Omnipay::create('PayPal_Rest');
+ *   $gateway = Omnipay::create('PayPal_Rest_V2');
  *
  *   // Initialise the gateway
  *   $gateway->initialize(array(
@@ -329,6 +323,11 @@ class RestGatewayV2 extends AbstractGateway
         return !empty($token) && time() < $expires;
     }
 
+    public function setPaymentSource($value)
+    {
+        return $this->setParameter('paymentSource', $value);
+    }
+
     /**
      * Create Request
      *
@@ -340,7 +339,7 @@ class RestGatewayV2 extends AbstractGateway
      *
      * @param string $class
      * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\AbstractRestRequest
+     * @return \Omnipay\PayPal\Message\Rest\V1\AbstractRestRequest|\Omnipay\PayPal\Message\Rest\V2\AbstractRestRequest
      */
     public function createRequest($class, array $parameters = array())
     {
@@ -353,398 +352,66 @@ class RestGatewayV2 extends AbstractGateway
         return parent::createRequest($class, $parameters);
     }
 
-    //
-    // Payments -- Create payments or get details of one or more payments.
-    //
-    // @link https://developer.paypal.com/docs/api/#payments
-    //
-
-    /**
-     * Create a purchase request.
-     *
-     * PayPal provides various payment related operations using the /payment
-     * resource and related sub-resources. Use payment for direct credit card
-     * payments and PayPal account payments. You can also use sub-resources
-     * to get payment related details.
-     *
-     * @link https://developer.paypal.com/docs/api/#create-a-payment
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestPurchaseRequest
-     */
-    public function purchase(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestPurchaseRequest', $parameters);
-    }
-
-    /**
-     * Fetch a purchase request.
-     *
-     * Use this call to get details about payments that have not completed,
-     * such as payments that are created and approved, or if a payment has failed.
-     *
-     * @link https://developer.paypal.com/docs/api/#look-up-a-payment-resource
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestFetchPurchaseRequest
-     */
-    public function fetchPurchase(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestFetchPurchaseRequest', $parameters);
-    }
-
-    /**
-     * List purchase requests.
-     *
-     * Use this call to get a list of payments in any state (created, approved,
-     * failed, etc.). The payments returned are the payments made to the merchant
-     * making the call.
-     *
-     * @link https://developer.paypal.com/docs/api/#list-payment-resources
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestListPurchaseRequest
-     */
-    public function listPurchase(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestListPurchaseRequest', $parameters);
-    }
-
-    /**
-     * Completes a purchase request.
-     *
-     * @link https://developer.paypal.com/docs/api/#execute-an-approved-paypal-payment
-     * @param array $parameters
-     * @return Message\AbstractRestRequest
-     */
-    public function completePurchase(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestCompletePurchaseRequest', $parameters);
-    }
-
-    /**
-     * @param array $parameters
-     *
-     * @return RestCreateWebhookRequest
-     */
-    public function createWebhook(array $parameters = [])
-    {
-        return $this->createRequest(RestCreateWebhookRequest::class, $parameters);
-    }
-
-    // TODO: Update a payment resource https://developer.paypal.com/docs/api/#update-a-payment-resource
+    
+    // TODO: Methods To Implement
+    
+    // Create Credit Card
+    // createCard
+    // updateCard
+    // deleteCard 
 
     //
-    // Authorizations -- Capture, reauthorize, void and look up authorizations.
-    //
-    // @link https://developer.paypal.com/docs/api/#authorizations
-    // @link https://developer.paypal.com/docs/integration/direct/capture-payment/
+    // Cards
+    // @link https://developer.paypal.com/docs/api/payment-tokens/v3/
     //
 
     /**
-     * Create an authorization request.
+     * @inheritdoc
      *
-     * To collect payment at a later time, first authorize a payment using the /payment resource.
-     * You can then capture the payment to complete the sale and collect payment.
-     *
-     * @link https://developer.paypal.com/docs/integration/direct/capture-payment/#authorize-the-payment
-     * @link https://developer.paypal.com/docs/api/#authorizations
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestAuthorizeRequest
-     */
-    public function authorize(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestAuthorizeRequest', $parameters);
-    }
-
-    /**
-     * Void an authorization.
-     *
-     * To to void a previously authorized payment.
-     *
-     * @link https://developer.paypal.com/docs/api/#void-an-authorization
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestVoidRequest
-     */
-    public function void(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestVoidRequest', $parameters);
-    }
-
-    /**
-     * Capture an authorization.
-     *
-     * Use this resource to capture and process a previously created authorization.
-     * To use this resource, the original payment call must have the intent set to
-     * authorize.
-     *
-     * @link https://developer.paypal.com/docs/api/#capture-an-authorization
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestCaptureRequest
-     */
-    public function capture(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestCaptureRequest', $parameters);
-    }
-
-    // TODO: Authorizations with payment_method == paypal.
-
-    /**
-     * Refund a Captured Payment
-     *
-     * To refund captured payments (authorization transaction) created by a authorize request.
-     *
-     * @link https://developer.paypal.com/docs/api/#refund-a-captured-payment
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestRefundCaptureRequest
-     */
-    public function refundCapture(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestRefundCaptureRequest', $parameters);
-    }
-
-    //
-    // Sale Transactions -- Get and refund completed payments (sale transactions).
-    // @link https://developer.paypal.com/docs/api/#sale-transactions
-    //
-
-    /**
-     * Fetch a Sale Transaction
-     *
-     * To get details about completed payments (sale transaction) created by a payment request
-     * or to refund a direct sale transaction, PayPal provides the /sale resource and related
-     * sub-resources.
-     *
-     * @link https://developer.paypal.com/docs/api/#sale-transactions
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestFetchTransactionRequest
-     */
-    public function fetchTransaction(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestFetchTransactionRequest', $parameters);
-    }
-
-    /**
-     * Refund a Sale Transaction
-     *
-     * To get details about completed payments (sale transaction) created by a payment request
-     * or to refund a direct sale transaction, PayPal provides the /sale resource and related
-     * sub-resources.
-     *
-     * @link https://developer.paypal.com/docs/api/#sale-transactions
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestRefundRequest
-     */
-    public function refund(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestRefundRequest', $parameters);
-    }
-
-    //
-    // Vault: Store customer credit cards securely.
-    //
-    // @link https://developer.paypal.com/docs/api/#vault
-    //
-
-    /**
-     * Store a credit card in the vault
-     *
-     * You can currently use the /vault API to store credit card details
-     * with PayPal instead of storing them on your own server. After storing
-     * a credit card, you can then pass the credit card id instead of the
-     * related credit card details to complete a payment.
-     *
-     * @link https://developer.paypal.com/docs/api/#store-a-credit-card
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestCreateCardRequest
+     * @return \Omnipay\PayPal\Message\Rest\V2\RestCreateCardRequest
      */
     public function createCard(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestCreateCardRequest', $parameters);
+        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V2\RestCreateCardRequest', $parameters);
     }
 
-    /**
-     * Delete a credit card from the vault.
+        /**
+     * @inheritdoc
      *
-     * Updating a card in the vault is no longer supported -- see
-     * http://stackoverflow.com/questions/20858910/paypal-rest-api-update-a-stored-credit-card
-     * Therefore the only way to update a card is to remove it using deleteCard and
-     * then re-add it using createCard.
-     *
-     * @link https://developer.paypal.com/docs/api/#delete-a-stored-credit-card
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestDeleteCardRequest
+     * @return \Omnipay\PayPal\Message\Rest\V2\RestCreateCardRequest
      */
     public function deleteCard(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestDeleteCardRequest', $parameters);
+        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V2\RestDeleteCardRequest', $parameters);
     }
 
-    //
-    // Billing Plans and Agreements -- Set up recurring payments.
-    // @link https://developer.paypal.com/docs/api/#billing-plans-and-agreements
-    //
+    // /**
+    //  * @inheritdoc
+    //  *
+    //  * @return \Omnipay\PayPal\Message\Rest\V2\UpdateCardRequest
+    //  */
+    // public function updateCard(array $parameters = array())
+    // {
+    //     return $this->createRequest('\Omnipay\PayPal\Message\Rest\V2\UpdateCardRequest', $parameters);
+    // }
 
-    /**
-     * Create a billing plan.
-     *
-     * You can create an empty billing plan and add a trial period and/or regular
-     * billing. Alternatively, you can create a fully loaded plan that includes
-     * both a trial period and regular billing. Note: By default, a created billing
-     * plan is in a CREATED state. A user cannot subscribe to the billing plan
-     * unless it has been set to the ACTIVE state.
-     *
-     * @link https://developer.paypal.com/docs/api/#create-a-plan
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestCreatePlanRequest
-     */
-    public function createPlan(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestCreatePlanRequest', $parameters);
-    }
+    // /**
+    //  * @inheritdoc
+    //  *
+    //  * @return \Omnipay\PayPal\Message\Rest\V2\DeleteCardRequest
+    //  */
+    // public function deleteCard(array $parameters = array())
+    // {
+    //     return $this->createRequest('\Omnipay\PayPal\Message\Rest\V2\DeleteCardRequest', $parameters);
+    // }
 
-    /**
-     * Update a billing plan.
-     *
-     * You can update the information for an existing billing plan. The state of a plan
-     * must be active before a billing agreement is created.
-     *
-     * @link https://developer.paypal.com/docs/api/#update-a-plan
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestUpdatePlanRequest
-     */
-    public function updatePlan(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestUpdatePlanRequest', $parameters);
-    }
+    // Purchase
+    
+    // Refund
 
-    // TODO: Retrieve a plan
+    // Void
 
+    // 
+    
 
-    /**
-     * List billing plans.
-     *
-     * Use this call to get a list of plans in any state (CREATED, ACTIVE, etc.).
-     * The plans returned are the plans made by the merchant making the call.
-     *
-     * @link https://developer.paypal.com/docs/api/payments.billing-plans#plan_list
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestListPlanRequest
-     */
-    public function listPlan(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestListPlanRequest', $parameters);
-    }
-
-    /**
-     * Create a subscription.
-     *
-     * Use this call to create a billing agreement for the buyer.
-     *
-     * @link https://developer.paypal.com/docs/api/#create-an-agreement
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestCreateSubscriptionRequest
-     */
-    public function createSubscription(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestCreateSubscriptionRequest', $parameters);
-    }
-
-    /**
-     * Complete (execute) a subscription.
-     *
-     * Use this call to execute an agreement after the buyer approves it.
-     *
-     * @link https://developer.paypal.com/docs/api/#execute-an-agreement
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestCompleteSubscriptionRequest
-     */
-    public function completeSubscription(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestCompleteSubscriptionRequest', $parameters);
-    }
-
-    /**
-     * Cancel a subscription.
-     *
-     * Use this call to cancel an agreement.
-     *
-     * @link https://developer.paypal.com/docs/api/#cancel-an-agreement
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestCancelSubscriptionRequest
-     */
-    public function cancelSubscription(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestCancelSubscriptionRequest', $parameters);
-    }
-
-    /**
-     * Suspend a subscription.
-     *
-     * Use this call to suspend an agreement.
-     *
-     * @link https://developer.paypal.com/docs/api/#suspend-an-agreement
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestSuspendSubscriptionRequest
-     */
-    public function suspendSubscription(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestSuspendSubscriptionRequest', $parameters);
-    }
-
-    /**
-     * Reactivate a suspended subscription.
-     *
-     * Use this call to reactivate or un-suspend an agreement.
-     *
-     * @link https://developer.paypal.com/docs/api/#reactivate-an-agreement
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestReactivateSubscriptionRequest
-     */
-    public function reactivateSubscription(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestReactivateSubscriptionRequest', $parameters);
-    }
-
-    /**
-     * Search for transactions.
-     *
-     * Use this call to search for the transactions within a billing agreement.
-     * Note that this is not a generic transaction search function -- for that
-     * see RestListPurchaseRequest.  It only searches for transactions within
-     * a billing agreement.
-     *
-     * This should be used on a regular basis to determine the success / failure
-     * state of transactions on active billing agreements.
-     *
-     * @link https://developer.paypal.com/docs/api/#search-for-transactions
-     * @param array $parameters
-     * @return \Omnipay\PayPal\Message\Rest\V1\RestCompleteSubscriptionRequest
-     */
-    public function searchTransaction(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V1\RestSearchTransactionRequest', $parameters);
-    }
-
-    /**
-     * @param array $parameters
-     *
-     * @return RestListWebhooksRequest
-     */
-    public function listWebhooks(array $parameters = [])
-    {
-        return $this->createRequest(RestListWebhooksRequest::class, $parameters);
-    }
-
-    /**
-     * @param array $parameters
-     *
-     * @return RestVerifyWebhookSignatureRequest
-     */
-    public function verifyWebhookSignature(array $parameters = [])
-    {
-        return $this->createRequest(RestVerifyWebhookSignatureRequest::class, $parameters);
-    }
-
-    // TODO: Update an agreement
-    // TODO: Retrieve an agreement
-    // TODO: Set outstanding agreement amounts
-    // TODO: Bill outstanding agreement amounts
 }

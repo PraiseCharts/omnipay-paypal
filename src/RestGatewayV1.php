@@ -82,7 +82,7 @@ use Omnipay\PayPal\Message\Rest\V1\RestVerifyWebhookSignatureRequest;
  * <code>
  *   // Create a gateway for the PayPal RestGateway
  *   // (routes to GatewayFactory::create)
- *   $gateway = Omnipay::create('PayPal_Rest');
+ *   $gateway = Omnipay::create('PayPal_Rest_V1');
  *
  *   // Initialise the gateway
  *   $gateway->initialize(array(

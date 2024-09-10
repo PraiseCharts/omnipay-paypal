@@ -1,0 +1,8 @@
+HTTP/2 204
+server: nginx
+accept-ranges: bytes
+via: 1.1 varnish, 1.1 varnish
+edge-control: max-age=0
+date: Tue, 10 Sep 2024 16:50:25 GMT
+vary: Accept-Encoding
+
