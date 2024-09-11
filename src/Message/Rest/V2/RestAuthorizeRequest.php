@@ -223,7 +223,7 @@ class RestAuthorizeRequest extends AbstractRestRequest
                 array(
                     'amount' => array(
                         'value' => $this->getAmount(),
-                        'currency' => $this->getCurrency(),
+                        'currency_code' => $this->getCurrency(),
                     ),
                     'invoice_number' => $this->getTransactionId()
                 )
@@ -240,7 +240,7 @@ class RestAuthorizeRequest extends AbstractRestRequest
                     'quantity' => $item->getQuantity(),
                     'unit_amount' => [
                         'value' => $item->getPrice(),
-                        'currency' => $this->getCurrency()
+                        'currency_code' => $this->getCurrency()
                     ]
                 );
             }
