@@ -33,7 +33,7 @@ class RestCreateCardRequestTest extends TestCase
         $cardFromRequest = $data['payment_source']['card'];
 
         $this->assertSame($card->getNumber(), $cardFromRequest['number']);
-        $this->assertSame($card->getBrand(), $cardFromRequest['brand']);
+        $this->assertSame(strtoupper($card->getBrand()), $cardFromRequest['brand']);
         $this->assertSame($card->getExpiryYear().'-'.$card->getExpiryMonth(), $cardFromRequest['expiry']);
         $this->assertSame($card->getCvv(), $cardFromRequest['security_code']);
         $this->assertSame($card->getName(), $cardFromRequest['name']);
