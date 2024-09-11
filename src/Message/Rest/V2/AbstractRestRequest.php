@@ -39,7 +39,7 @@ abstract class AbstractRestRequest extends \Omnipay\Common\Message\AbstractReque
      *
      * @var string URL
      */
-    protected $testEndpoint = 'https://api.sandbox.paypal.com';
+    protected $testEndpoint = 'https://api-m.sandbox.paypal.com';
 
     /**
      * Live Endpoint URL
@@ -49,7 +49,7 @@ abstract class AbstractRestRequest extends \Omnipay\Common\Message\AbstractReque
      *
      * @var string URL
      */
-    protected $liveEndpoint = 'https://api.paypal.com';
+    protected $liveEndpoint = 'https://api-m.paypal.com';
 
     /**
      * PayPal Payer ID
