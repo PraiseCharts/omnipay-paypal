@@ -59,6 +59,7 @@ abstract class AbstractRestRequest extends \Omnipay\Common\Message\AbstractReque
     protected $payerId = null;
 
     protected $referrerCode;
+    protected $requestId;
 
     /**
      * @var bool
@@ -81,6 +82,22 @@ abstract class AbstractRestRequest extends \Omnipay\Common\Message\AbstractReque
     public function setReferrerCode($referrerCode)
     {
         $this->referrerCode = $referrerCode;
+    }
+
+        /**
+     * @return string
+     */
+    public function getRequestId()
+    {
+        return $this->requestId;
+    }
+
+    /**
+     * @param string $requestId
+     */
+    public function setRequestId($requestId)
+    {
+        $this->requestId = $requestId;
     }
 
     public function getClientId()
@@ -155,15 +172,25 @@ abstract class AbstractRestRequest extends \Omnipay\Common\Message\AbstractReque
         // logging engine is being used.
         // echo "Data == " . json_encode($data) . "\n";
 
+        $headers = array(
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->getToken(),
+            'Content-type' => 'application/json',
+        );
+
+        if ($this->getReferrerCode()) {
+            $headers['PayPal-Partner-Attribution-Id'] = $this->getReferrerCode();
+        }
+
+        if ($this->getRequestId()) {
+            $headers['PayPal-Request-Id'] = $this->getRequestId();
+        } 
+
         try {
             $httpResponse = $this->httpClient->request(
                 $this->getHttpMethod(),
                 $this->getEndpoint(),
-                array(
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $this->getToken(),
-                    'Content-type' => 'application/json',
-                ),
+                $headers,
                 $body
             );
             // Empty response body should be parsed also as and empty array
