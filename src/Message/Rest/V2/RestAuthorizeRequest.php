@@ -221,7 +221,6 @@ class RestAuthorizeRequest extends AbstractRestRequest
             'intent' => 'AUTHORIZE',
             'purchase_units' => array(
                 array(
-                    'description' => $this->getDescription(),
                     'amount' => array(
                         'value' => $this->getAmount(),
                         'currency' => $this->getCurrency(),
@@ -251,7 +250,7 @@ class RestAuthorizeRequest extends AbstractRestRequest
         if ($this->getCardReference()) {
             $this->validate('amount');
 
-            $data['payment_source']['paypal'][] = array(
+            $data['payment_source']['paypal'] = array(
                 'vault_id' =>$this->getCardReference()
             );
         } elseif ($this->getCard()) {
