@@ -72,9 +72,4 @@ class RestPurchaseRequest extends RestAuthorizeRequest
         $data['intent'] = 'CAPTURE';
         return $data;
     }
-
-    protected function getEndpoint()
-    {
-        return parent::getEndpoint() . '/checkout/orders';
-    }
 }
