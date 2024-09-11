@@ -17,16 +17,14 @@ use Omnipay\Common\Exception\InvalidResponseException;
  * to create a new payment:
  *
  * <code>
- * POST https://api.paypal.com/v1/payments/payment
+ * POST https://api.paypal.com/v2/orders/create
  * </code>
  *
  * To create a complete request, combine the operation with the appropriate HTTP headers
  * and any required JSON payload.
  *
- * @link https://developer.paypal.com/docs/api/
- * @link https://devtools-paypal.com/integrationwizard/
- * @link http://paypal.github.io/sdk/
- * @see Omnipay\PayPal\RestGateway
+ * @link https://developer.paypal.com/api/rest/
+ * @see Omnipay\PayPal\RestV2Gateway
  */
 abstract class AbstractRestRequest extends \Omnipay\Common\Message\AbstractRequest
 {
@@ -115,15 +113,6 @@ abstract class AbstractRestRequest extends \Omnipay\Common\Message\AbstractReque
         return $this->setParameter('token', $value);
     }
 
-    public function getPayerId()
-    {
-        return $this->getParameter('payerId');
-    }
-
-    public function setPayerId($value)
-    {
-        return $this->setParameter('payerId', $value);
-    }
 
     /**
      * Get HTTP Method.

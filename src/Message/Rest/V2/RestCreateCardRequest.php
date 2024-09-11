@@ -72,8 +72,6 @@ class RestCreateCardRequest extends AbstractRestRequest
 
         if ($this->getPaymentSource()) {
             $data['payment_source'] = $this->getPaymentSource();
-        } elseif ($this->getCardReference()) {
-            $data['payment_source']['card'] = $this->getCardReference();
         } elseif ($this->getCard()) {
             $this->getCard()->validate();
             $cardData = $this->getCardData();

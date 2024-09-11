@@ -375,7 +375,7 @@ class RestV2Gateway extends AbstractGateway
         return $this->createRequest('\Omnipay\PayPal\Message\Rest\V2\RestCreateCardRequest', $parameters);
     }
 
-        /**
+    /**
      * @inheritdoc
      *
      * @return \Omnipay\PayPal\Message\Rest\V2\RestCreateCardRequest
@@ -406,6 +406,15 @@ class RestV2Gateway extends AbstractGateway
     // }
 
     // Purchase
+    /**
+     * @inheritdoc
+     *
+     * @return \Omnipay\PayPal\Message\Rest\V2\RestPurchaseRequest
+     */
+    public function purchase(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V2\RestPurchaseRequest', $parameters);
+    }
     
     // Refund
 
