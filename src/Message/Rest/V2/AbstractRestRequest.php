@@ -291,7 +291,7 @@ abstract class AbstractRestRequest extends \Omnipay\Common\Message\AbstractReque
             'name' => $this->getCard()->getName(),
             'number' => $this->getCard()->getNumber(),
             'brand' => $this->getCard()->getBrand(),
-            'expiry' => $this->getCard()->getExpiryYear().'-'.$this->getCard()->getExpiryMonth(),
+            'expiry' => $this->getCard()->getExpiryDate('Y-m'),
             'security_code' => $this->getCard()->getCvv(),
             'billing_address' => array(
                 'address_line_1' => $this->getCard()->getAddress1(),

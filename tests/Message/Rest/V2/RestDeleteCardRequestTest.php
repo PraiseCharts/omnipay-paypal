@@ -25,7 +25,7 @@ class RestDeleteCardRequestTest extends TestCase
     {
         $this->request->setCardReference('4w740078t47817438');
         $endpoint = $this->request->getEndpoint();
-        $this->assertSame('https://api.paypal.com/v3/vault/payment-tokens/4w740078t47817438', $this->request->getEndpoint());
+        $this->assertSame('https://api-m.paypal.com/v3/vault/payment-tokens/4w740078t47817438', $this->request->getEndpoint());
     }
 
     public function testSendSuccess()
