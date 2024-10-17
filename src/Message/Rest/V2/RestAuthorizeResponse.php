@@ -29,6 +29,16 @@ class RestAuthorizeResponse extends RestResponse implements RedirectResponseInte
         return empty($this->data['error']) && $this->getCode() == 201 && $everyCaptureCompleted;
     }
 
+    public function getMessage()
+    {
+        if (!empty($this->data['error'])) {
+            return $this->data['error'];
+        }
+
+        return $this->data['purchase_units'][0]['payments']['captures'][0]['status'] ?? null;
+
+    }
+
     public function isRedirect()
     {
         return $this->getRedirectUrl() !== null;
