@@ -31,11 +31,14 @@ class RestAuthorizeResponse extends RestResponse implements RedirectResponseInte
 
     public function getMessage()
     {
-        if (!empty($this->data['error'])) {
+        if (isset($this->data['error'][0])) {
             return $this->data['error'];
         }
 
-        return $this->data['purchase_units'][0]['payments']['captures'][0]['status'] ?? null;
+        $message = isset($this->data['purchase_units'][0]['payments']['captures'][0]['status']) 
+        ? $this->data['purchase_units'][0]['payments']['captures'][0]['status'] 
+        : null;
+        return $message;
 
     }
 

@@ -29,16 +29,16 @@ class RestResponse extends AbstractResponse
     public function getTransactionReference()
     {
         // This is usually correct for payments, authorizations, etc
-        if (!empty($this->data['transactions']) && !empty($this->data['transactions'][0]['related_resources'])) {
+        if (isset($this->data['transactions'][0]['related_resources'][0])) {
             foreach (array('sale', 'authorization') as $type) {
-                if (!empty($this->data['transactions'][0]['related_resources'][0][$type])) {
+                if (isset($this->data['transactions'][0]['related_resources'][0][$type]['id'])) {
                     return $this->data['transactions'][0]['related_resources'][0][$type]['id'];
                 }
             }
         }
 
         // This is a fallback, but is correct for fetch transaction and possibly others
-        if (!empty($this->data['id'])) {
+        if (isset($this->data['id'])) {
             return $this->data['id'];
         }
 
@@ -88,7 +88,7 @@ class RestResponse extends AbstractResponse
      */
     public function getCardReference()
     {
-        if (!empty($this->data['id'])) {
+        if (isset($this->data['id'])) {
             return $this->data['id'];
         } 
 
