@@ -15,6 +15,11 @@ class RestAuthorizeResponse extends RestResponse implements RedirectResponseInte
     public function isSuccessful()
     {
         $everyCaptureCompleted = true;
+        
+        if (!isset($this->data['purchase_units'])) {
+            return false;
+        }
+        
         foreach ($this->data['purchase_units'] as $purchaseUnit) {
             if (isset($purchaseUnit['payments']['captures'])) {
             foreach ($purchaseUnit['payments']['captures'] as $capture) {
