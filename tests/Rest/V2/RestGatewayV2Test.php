@@ -109,4 +109,18 @@ class RestGatewayV2Test extends GatewayTestCase
         $this->assertNull($response->getMessage());
     }
 
+    public function testRefund()
+    {
+        $this->setMockHttpResponse('RestRefundSuccess.txt');
+        
+        $response = $this->gateway
+            ->refund()
+            ->setTransactionReference('2GG279541U471931P')
+            ->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('1JU08902781691411', $response->getTransactionReference());
+        $this->assertNull($response->getMessage());
+    }
+
 }
