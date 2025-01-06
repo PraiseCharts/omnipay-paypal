@@ -418,6 +418,11 @@ class RestV2Gateway extends AbstractGateway
     
     // Refund
 
+    public function refund(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PayPal\Message\Rest\V2\RestRefundRequest', $parameters);
+    }
+
     // Void
 
     // 

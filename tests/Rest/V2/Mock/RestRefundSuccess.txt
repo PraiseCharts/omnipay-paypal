@@ -1,0 +1,12 @@
+HTTP/1.1 201 Created
+Server: Apache-Coyote/1.1
+PROXY_SERVER_INFO: host=slcsbjava2.slc.paypal.com;threadId=1534
+Paypal-Debug-Id: 98cbd3ab19dfe
+SERVER_INFO: paymentsplatformserv:v1.payments.payment&CalThreadId=129&TopLevelTxnStartTime=146fc9074ec&Host=slcsbjm3.slc.paypal.com&pid=15797
+CORRELATION-ID: 98cbd3ab19dfe
+Content-Language: *
+Date: Thu, 03 Jul 2014 14:11:10 GMT
+Content-Type: application/json
+Content-Length: 1243
+
+{"id":"1JU08902781691411","amount":{"value":"10.00","currency_code":"USD"},"status":"COMPLETED","note":"Defective product","seller_payable_breakdown":{"gross_amount":{"value":"10.00","currency_code":"USD"},"paypal_fee":{"value":"0","currency_code":"USD"},"platform_fees":[{"amount":{"currency_code":"USD","value":"1.00"}}],"net_amount":{"value":"9.00","currency_code":"USD"},"total_refunded_amount":{"value":"10.00","currency_code":"USD"}},"invoice_id":"INVOICE-123","create_time":"2022-04-23T23:24:19Z","update_time":"2022-04-23T23:24:19Z","links":[{"rel":"self","method":"GET","href":"https://api.paypal.com/v2/payments/refunds/1JU08902781691411"},{"rel":"up","method":"GET","href":"https://api.paypal.com/v2/payments/captures/2GG279541U471931P"}]}
